@@ -342,5 +342,20 @@ pub fn not_folded_test() {
   assert ascii_fold.fold("§") == "§"
   assert ascii_fold.fold("¦") == "¦"
   assert ascii_fold.fold("¤") == "¤"
-  assert ascii_fold.fold("END") == "END"
+}
+
+pub fn normalisation_n_test() {
+  // Both letters here look like a "ñ" but one is a single codepoint, while the
+  // other is an "n" followed by the tilde combining character.
+  // Both should be treated as an "n", no matter the representation.
+  assert ascii_fold.fold("\u{00F1}") == "n"
+  assert ascii_fold.fold("n\u{0303}") == "n"
+}
+
+pub fn normalisation_a_test() {
+  // Both letters here look like an "ä" but one is a single codepoint, while the
+  // other is an "a" followed by the dieresis combining character.
+  // Both should be treated as an "a", no matter the representation.
+  assert ascii_fold.fold("\u{00E4}") == "a"
+  assert ascii_fold.fold("a\u{0308}") == "a"
 }

@@ -78,7 +78,7 @@ const special_characters = [
   "⁅", "❲", "［", "⁆", "❳", "］", "⁽", "₍", "❨", "❪", "（", "⸨", "⁾", "₎", "❩", "❫",
   "）", "⸩", "❬", "❰", "＜", "❭", "❱", "＞", "❴", "｛", "❵", "｝", "⁺", "₊", "＋", "⁼",
   "₌", "＝", "！", "‼", "⁉", "＃", "＄", "⁒", "％", "＆", "⁎", "＊", "，", "．", "⁄", "／",
-  "：", "⁏", "；", "？", "⁇", "⁈", "＠", "＼", "‸", "＾", "＿", "⁓", "～",
+  "：", "⁏", "；", "？", "⁇", "⁈", "＠", "＼", "‸", "＾", "＿", "⁓", "～", "ʾ",
 ]
 
 /// Convert non-ascii characters into their ascii equivalent, if a
@@ -99,8 +99,12 @@ const special_characters = [
 ///
 pub fn fold(string: String) -> String {
   let splitter = splitter.new(special_characters)
-  normalise_splitter_loop(splitter, string, "")
+  normalise_splitter_loop(splitter, nfc_normalise(string), "")
 }
+
+@external(erlang, "ascii_fold_ffi", "nfc_normalise")
+@external(javascript, "./ascii_fold.ffi.mjs", "nfc_normalise")
+fn nfc_normalise(string: String) -> String
 
 fn normalise_splitter_loop(
   splitter: splitter.Splitter,
@@ -997,7 +1001,7 @@ fn convert_letter(letter: String) -> String {
     "⒇" -> "(20)"
     "＂" | "❯" | "❮" | "“" | "”" | "❞" | "❝" | "‶" | "″" | "„" | "»" | "«" ->
       "\""
-    "＇" | "❜" | "❛" | "›" | "‹" | "‵" | "′" | "‛" | "‚" | "’" | "‘" -> "'"
+    "＇" | "❜" | "❛" | "›" | "‹" | "‵" | "′" | "‛" | "‚" | "’" | "‘" | "ʾ" -> "'"
     "－" | "₋" | "⁻" | "—" | "–" | "‒" | "‑" | "‐" -> "-"
     "［" | "❲" | "⁅" -> "["
     "］" | "❳" | "⁆" -> "]"
