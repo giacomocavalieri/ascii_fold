@@ -1,0 +1,14 @@
+name = "ascii_fold"
+version = "1.0.0"
+
+description = "📠 Convert non-ascii characters into their ascii equivalent."
+licences = ["Apache-2.0"]
+repository = { type = "github", user = "giacomocavalieri", repo = "ascii_fold" }
+links = [{ title = "Sponsor", href = "https://github.com/sponsors/giacomocavalieri" }]
+
+[dependencies]
+gleam_stdlib = ">= 0.44.0 and < 2.0.0"
+splitter = ">= 1.2.0 and < 2.0.0"
+
+[dev-dependencies]
+gleeunit = ">= 1.0.0 and < 2.0.0"
